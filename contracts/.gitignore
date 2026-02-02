@@ -1,0 +1,39 @@
+# Compiler files
+cache/
+out/
+
+# Broadcast logs (keep deployment records, ignore local/dry-run)
+/broadcast/*/31337/
+/broadcast/**/dry-run/
+
+# Docs
+docs/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Coverage
+lcov.info
+coverage/
+
+# Gas reports
+.gas-snapshot
+
+# Node
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Security tool reports
+slither-report.json
+mythril-report.json
