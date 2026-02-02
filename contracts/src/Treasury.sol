@@ -5,5 +5,5 @@ pragma solidity ^0.8.24;
 /// @notice Fund custody, deposits, withdrawals, and OrbitalHook integration
 /// @dev TODO: Implement contract
 contract Treasury {
-    // TODO: Implement
+// TODO: Implement
 }

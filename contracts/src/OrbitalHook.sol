@@ -5,5 +5,5 @@ pragma solidity ^0.8.24;
 /// @notice Uniswap v4 hook for stablecoin liquidity
 /// @dev TODO: Implement contract
 contract OrbitalHook {
-    // TODO: Implement
+// TODO: Implement
 }
