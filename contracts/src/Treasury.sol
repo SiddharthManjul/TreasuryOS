@@ -130,7 +130,15 @@ contract Treasury is AccessControl, Pausable {
 
     // --- Payroll Integration ---
 
-    function lockForPayroll(bytes32 sessionId, address token, uint256 amount) external onlyRole(MANAGER_ROLE) whenNotPaused {
+    function lockForPayroll(
+        bytes32 sessionId,
+        address token,
+        uint256 amount
+    )
+        external
+        onlyRole(MANAGER_ROLE)
+        whenNotPaused
+    {
         if (amount == 0) revert ZeroAmount();
         if (lockedBalances[sessionId][token] != 0) revert SessionAlreadyLocked();
         if (availableBalance(token) < amount) revert InsufficientBalance();
