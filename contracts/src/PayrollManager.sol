@@ -47,14 +47,14 @@ contract PayrollManager is AccessControl {
     mapping(bytes32 => mapping(bytes32 => bool)) public claimed;
 
     // --- Events ---
-    event SessionCreated(bytes32 indexed sessionId, address indexed company, address indexed token, uint256 totalAmount);
+    event SessionCreated(
+        bytes32 indexed sessionId, address indexed company, address indexed token, uint256 totalAmount
+    );
     event SessionStarted(bytes32 indexed sessionId, uint256 startTime);
     event SessionClosed(bytes32 indexed sessionId, bytes32 stateRoot, uint256 endTime);
     event SessionSettled(bytes32 indexed sessionId);
     event SessionCancelled(bytes32 indexed sessionId);
-    event PayoutClaimed(
-        bytes32 indexed sessionId, bytes32 indexed employeeId, address recipient, uint256 amount
-    );
+    event PayoutClaimed(bytes32 indexed sessionId, bytes32 indexed employeeId, address recipient, uint256 amount);
 
     constructor(address _treasury) {
         if (_treasury == address(0)) revert ZeroAddress();
@@ -68,7 +68,10 @@ contract PayrollManager is AccessControl {
         address token,
         uint256 totalAmount,
         uint256 employeeCount
-    ) external onlyRole(COMPANY_ROLE) {
+    )
+        external
+        onlyRole(COMPANY_ROLE)
+    {
         if (sessions[sessionId].company != address(0)) revert SessionAlreadyExists();
         if (totalAmount == 0) revert ZeroAmount();
         if (!treasury.supportedTokens(token)) revert ZeroAddress();
@@ -101,10 +104,7 @@ contract PayrollManager is AccessControl {
         emit SessionStarted(sessionId, block.timestamp);
     }
 
-    function closeSession(
-        bytes32 sessionId,
-        bytes32 stateRoot
-    ) external onlyRole(COMPANY_ROLE) {
+    function closeSession(bytes32 sessionId, bytes32 stateRoot) external onlyRole(COMPANY_ROLE) {
         Session storage session = sessions[sessionId];
         if (session.company == address(0)) revert SessionNotFound();
         if (session.status != SessionStatus.Active) revert InvalidStatus();
@@ -149,7 +149,9 @@ contract PayrollManager is AccessControl {
         address recipient,
         uint256 amount,
         bytes32[] calldata merkleProof
-    ) external {
+    )
+        external
+    {
         Session storage session = sessions[sessionId];
         if (session.company == address(0)) revert SessionNotFound();
         if (session.status != SessionStatus.Closing && session.status != SessionStatus.Settled) {
@@ -189,7 +191,11 @@ contract PayrollManager is AccessControl {
         address recipient,
         uint256 amount,
         bytes32[] calldata merkleProof
-    ) external view returns (bool) {
+    )
+        external
+        view
+        returns (bool)
+    {
         Session storage session = sessions[sessionId];
         bytes32 leaf = keccak256(abi.encodePacked(employeeId, recipient, amount));
         return MerkleProof.verify(merkleProof, session.stateRoot, leaf);
